@@ -5,7 +5,7 @@ import { z } from "zod";
 // Validate the incoming JSON body
 const BodySchema = z.object({
   id: z.string(), // Supabase auth uid (string UUID)
-  email: z.string().email(),
+  email: z.email(),
   role: z.enum(["customer", "staff"]).optional(),
 });
 
@@ -15,7 +15,7 @@ export async function POST(req: NextRequest) {
     const parsed = BodySchema.safeParse(json);
     if (!parsed.success) {
       return NextResponse.json(
-        { error: "Invalid body", details: parsed.error.flatten() },
+        { error: "Invalid body", details: z.treeifyError(parsed.error) },
         { status: 400 }
       );
     }
