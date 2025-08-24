@@ -1,15 +1,19 @@
-export const dynamic = "force-dynamic";
 "use client";
+
+export const dynamic = "force-dynamic";
 
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase/client";
 
 export default function TestPage() {
-  const [msg, setMsg] = useState("Loading...");
+  const [msg, setMsg] = useState("…");
 
   useEffect(() => {
     (async () => {
-      const { data, error } = await supabase.from("restaurants").select("*").limit(1);
+      const { data, error } = await supabase
+        .from("restaurants")
+        .select("name")
+        .limit(1);
       if (error) setMsg("Error: " + error.message);
       else setMsg(data?.length ? `OK: ${data[0].name}` : "OK: no restaurants found");
     })();
