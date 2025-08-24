@@ -9,7 +9,7 @@ import { supabase } from "@/lib/supabase/client";
 
 // Make mode and role required in the schema:
 const schema = z.object({
-  email: z.string().email({ message: "Invalid email address" }), // new .email({ message }) API
+  email: z.string().email("Invalid email address"), // updated to recommended API
   password: z.string().min(6, "Min 6 characters"),
   mode: z.enum(["signup", "signin"]),
   role: z.enum(["customer", "staff"]),
